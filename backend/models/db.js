@@ -13,21 +13,4 @@ const pool = mysql.createPool({
     connectionLimit: 10, queueLimit: 0
 });
 
-console.log("ENV CHECK:", {
-  DB_HOST: process.env.DB_HOST,
-  DB_USER: process.env.DB_USER,
-  DB_PASSWORD_EXI: !!process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME,
-  DB_PORT: process.env.DB_PORT
-});
-
-pool.getConnection()
-  .then(conn => {
-    console.log("✅ MySQL connected successfully");
-    conn.release();
-  })
-  .catch(err => {
-    console.error("❌ MySQL error:", err.message);
-});
-
 module.exports = pool;
