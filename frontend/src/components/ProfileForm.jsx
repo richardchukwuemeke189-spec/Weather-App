@@ -78,7 +78,6 @@ function ProfileForm() {
       const data = await res.json();
       if (res.ok) {
         await refreshUser(); // 🔁 Update global user state
-        // setMessage('Profile updated successfully!');
         toast.success('Profile updates successfully!');
         setTimeout(() => navigate('/profile'), 1500);
       } else {
@@ -86,7 +85,6 @@ function ProfileForm() {
       }
     } catch (err) {
         console.error('Update error:', err);
-        //   setMessage('Something went wrong.');
         toast.error('Something went wrong.');
     }
   };

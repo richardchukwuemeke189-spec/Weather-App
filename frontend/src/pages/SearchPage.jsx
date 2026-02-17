@@ -11,7 +11,7 @@ const fetchWeatherByCity = async (city) => {
     setWeather(weatherData);
     updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
-    const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}/forecast?city=${encodeURIComponent(city)}`);
+    const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
     const forecastData = await forecastRes.json();
     if (!forecastRes.ok) throw new Error(forecastData.error);
     const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));

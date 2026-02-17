@@ -10,7 +10,7 @@ function LogoutButton() {
   const handleLogout = () => {
     logout();
     toast.success('You have been logged out!');
-    setTimeout(() => navigate('/login'), 1500); // wait for toast to show
+    setTimeout(() => navigate('/login'), 1500);
   };
 
   return (

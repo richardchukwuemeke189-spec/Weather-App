@@ -30,6 +30,7 @@ function WeatherCard() {
   const [forecast, setForecast] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
   const fetchWeather = async (lat, lon) => {
@@ -41,7 +42,7 @@ function WeatherCard() {
       setWeather(weatherData);
       updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
-      const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}/forecast?lat=${lat}&lon=${lon}`);
+      const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
       const forecastData = await forecastRes.json();
       if (!forecastRes.ok) throw new Error(forecastData.error);
       const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
@@ -65,7 +66,7 @@ function WeatherCard() {
         setWeather(weatherData);
         updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
-        const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}/forecast?city=${encodeURIComponent(city)}`);
+        const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
         const forecastData = await forecastRes.json();
         if (!forecastRes.ok) throw new Error(forecastData.error);
         const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
@@ -120,7 +121,7 @@ const toggleFavorite = async () => {
     }
   } catch (err) {
     console.error('Failed to update favorite:', err);
-    // Optional: show a toast or alert here
+    setError('Failed to update favorite');
   }
 };
 // ======================
@@ -129,8 +130,7 @@ if (loading) return <p>Loading weather...</p>;
   if (error) return <p className="weather-error">Error: {error}</p>;
   if (!weather) return null;
 
-  // const theme = weatherThemes[weather.description.split(' ')[0]] || weatherThemes['Clear'];
-  const mainCondition = weather.main || 'Clear'; // fallback if undefined
+  const mainCondition = weather.main || 'Clear';
   const theme = weatherThemes[mainCondition] || weatherThemes['Clear'];
 
   // ===== favorites =====

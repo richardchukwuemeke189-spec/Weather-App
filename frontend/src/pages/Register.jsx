@@ -43,8 +43,7 @@ function Register() {
 
   try { 
     console.log("API URL:", import.meta.env.VITE_API_URL);
-    // const res = await axios.post(`${import.meta.env.VITE_API_URL}/register`, data);
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, data);
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/register`, data);
     toast.success('✅ Registration successful! Redirecting to login...'); 
     setTimeout(() => { window.location.href = '/login';
     }, 1500); 

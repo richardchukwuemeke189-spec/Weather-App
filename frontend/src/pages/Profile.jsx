@@ -11,19 +11,19 @@ function Profile(){
     if(!user){
         return (
             <div className="profileCard">
-        <div className="banner skeleton"></div>
-        <div className="profilePicWrap profile-body">
-          <div className="avatar-container">
-            <div className="skeleton avatar-skeleton"></div>
-          </div>
-          <div className="user-info mt-3">
-            <div className="skeleton skeleton-text short"></div>
-            <div className="skeleton skeleton-text"></div>
-            <div className="skeleton skeleton-text"></div>
-            <div className="skeleton skeleton-text long"></div>
-          </div>
-        </div>
-      </div>
+                <div className="banner skeleton"></div>
+                <div className="profilePicWrap profile-body">
+                <div className="avatar-container">
+                    <div className="skeleton avatar-skeleton"></div>
+                </div>
+                <div className="user-info mt-3">
+                    <div className="skeleton skeleton-text short"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text"></div>
+                    <div className="skeleton skeleton-text long"></div>
+                </div>
+                </div>
+            </div>
         );
     }
 
@@ -70,7 +70,6 @@ function Profile(){
                 <div className="weatherComponent col-10 col-sm-10 col-md-7 col-lg-7">
                     <WeatherCard />
                 </div>
-                {/* <FavoriteCities setSelectedCity={setSelectedCity} /> */}
                 <Link to='/favoriteCities' className="favorite-card">
                     <span><i class="bi bi-geo-alt-fill"></i></span>
                     <p>Favorite Cities</p>

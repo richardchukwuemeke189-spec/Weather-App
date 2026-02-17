@@ -145,7 +145,7 @@ function ExploreCities() {
                   }
 
               >
-                  <h3>{city}</h3>
+                <h3>{city}</h3>
                 {data && !data.error ? (
                   <>
                     <p>{data.temperature}°C</p>
