@@ -1,34 +1,46 @@
-import { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import '../style/navSection.css';
+// import Search from '../components/Search';
+
+// function SearchPage() {
+//   const navigate = useNavigate();
+
+//   const handleSearch = (city) => {
+//     // Navigate to the WeatherWidget route
+//     navigate(`/weather/${encodeURIComponent(city)}`);
+//   };
+
+//   return (
+//     <div className="navSectionWrap d-flex">
+//       <div className="searchWrap">
+//         <Search onSearch={handleSearch} />
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default SearchPage;
+
+import { useNavigate } from 'react-router-dom';
 import '../style/navSection.css';
 import Search from '../components/Search';
 
-const fetchWeatherByCity = async (city) => {
-  try {
-    setLoading(true);
-    const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
-    const weatherData = await weatherRes.json();
-    if (!weatherRes.ok) throw new Error(weatherData.error);
-    setWeather(weatherData);
-    updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
+function SearchPage() {
+  const navigate = useNavigate();
 
-    const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
-    const forecastData = await forecastRes.json();
-    if (!forecastRes.ok) throw new Error(forecastData.error);
-    const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
-    setForecast(daily);
-    setError('');
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleSearch = (city) => {
+    if (!city) return;
 
-function SearchPage({ onSearch }) {
+    const trimmedCity = city.trim();
+    if (!trimmedCity) return;
+
+    navigate(`/weather/${encodeURIComponent(trimmedCity)}`);
+  };
 
   return (
-    <div className="navSectionWrap d-flex"><div className="searchWrap">
-        <Search onSearch={onSearch} />
+    <div className="navSectionWrap d-flex">
+      <div className="searchWrap">
+        <Search onSearch={handleSearch} />
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ function ProfileForm() {
     if (formData.photo) form.append('photo', formData.photo);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_USER_URL}/update`, {
+      const res = await fetch(`${import.meta.env.VITE_USER_URL}/api/user/update`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`

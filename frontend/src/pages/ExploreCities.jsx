@@ -51,15 +51,15 @@ function ExploreCities() {
   const [customCity, setCustomCity] = useState(null);
   
   useEffect(() => {
-      const fetchAll = async () => {
-          const results = {};
-          for (const city of cities) {
-              try {
+    const fetchAll = async () => {
+      const results = {};
+      for (const city of cities) {
+        try {
           const res = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
           const data = await res.json();
           results[city] = data;
         } catch (err) {
-            results[city] = { error: true };
+          results[city] = { error: true };
         }
       }
       setWeatherData(results);

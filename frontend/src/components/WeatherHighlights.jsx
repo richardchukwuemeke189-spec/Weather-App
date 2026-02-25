@@ -1,38 +1,82 @@
-import HighlightCard from './HighlightCard';
+import { useEffect, useState } from 'react';
 import '../style/weatherHighlights.css';
 
 function WeatherHighlights() {
-  const highlights = [
-    {
-      type: 'hot',
-      city: 'Lodwar, Kenya',
-      temperature: '35°C',
-      description: 'Sunny and hot',
-    },
-    {
-      type: 'cold',
-      city: 'Yakutsk, Russia',
-      temperature: '-64°C',
-      description: 'Deep freeze',
-    },
-    {
-      type: 'rainy',
-      city: 'Mawsynram, India',
-      description: '11,872 mm/year – Monsoon heaven',
-    },
-    {
-      type: 'snowy',
-      city: 'Siberia, Russia',
-      description: 'Heavy snowfall this week',
-    },
-  ];
+  const baseUrl = import.meta.env.VITE_WEATHER_URL;
+
+  const [highlights, setHighlights] = useState([
+    { id: 'lodwar', type: 'hot', city: 'Lodwar', country: 'Kenya', loading: true },
+    { id: 'yakutsk', type: 'cold', city: 'Yakutsk', country: 'Russia', loading: true },
+    { id: 'mawsynram', type: 'rainy', city: 'Mawsynram', country: 'India', loading: true },
+    { id: 'siberia', type: 'snowy', city: 'Siberia', country: 'Russia', loading: true },
+  ]);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const updatedHighlights = await Promise.all(
+          highlights.map(async (item) => {
+            try {
+              const response = await fetch(
+                `${baseUrl}?city=${encodeURIComponent(item.city)}`
+              );
+
+              if (!response.ok) {
+                return { ...item, loading: false, error: true };
+              }
+
+              const data = await response.json();
+
+              return {
+                ...item,
+                temperature: `${Math.round(data.temperature)}°C`,
+                description: data.description,
+                icon: data.icon,
+                loading: false,
+              };
+            } catch (err) {
+              return { ...item, loading: false, error: true };
+            }
+          })
+        );
+
+        setHighlights(updatedHighlights);
+      } catch (err) {
+        console.error('Failed to load weather highlights:', err);
+      }
+    };
+
+    fetchWeather();
+  }, []);
 
   return (
     <section className="weather-highlights">
-      <h2>🌟 Weather Highlights</h2>
+      <h2>Weather Highlights</h2>
+
       <div className="highlight-grid">
-        {highlights.map((item, index) => (
-          <HighlightCard key={index} {...item} />
+        {highlights.map((item) => (
+          <div key={item.id} className={`highlight-card ${item.type}`}>
+            <h4>
+              {item.city}, {item.country}
+            </h4>
+
+            {item.loading ? (
+              <p>Loading weather...</p>
+            ) : item.error ? (
+              <p>Weather unavailable</p>
+            ) : (
+              <>
+                {item.icon && (
+                  <img
+                    src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`}
+                    alt={item.description}
+                  />
+                )}
+                <p className="temp">{item.temperature}</p>
+                <p>{item.description}</p>
+              </>
+            )}
+          </div>
         ))}
       </div>
     </section>

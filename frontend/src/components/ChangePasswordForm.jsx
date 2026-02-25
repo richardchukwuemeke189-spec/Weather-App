@@ -47,7 +47,7 @@ function ChangePasswordForm() {
         setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         setTimeout(() => navigate('/login'), 1500);
       } else {
-        toast.error(data.error || 'Password update failed.');
+        console.error(data.error || 'Password update failed.');
       }
     } catch (err) {
       console.error('Password update error:', err);

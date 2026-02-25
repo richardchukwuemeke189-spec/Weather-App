@@ -13,9 +13,7 @@ function Register() {
     photo: null
   });
 
-  // 
-  const {setUser} = useAuth();
-  // 
+  const { setUser } = useAuth();
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -28,66 +26,119 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setMessage('');
+    e.preventDefault();
+    setMessage('');
 
-  const data = new FormData();
-  data.append('username', formData.username);
-  data.append('email', formData.email);
-  data.append('location', formData.location);
-  data.append('bio', formData.bio);
-  data.append('password', formData.password);
-  if (formData.photo) {
-    data.append('photo', formData.photo);
-  }
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) data.append(key, value);
+    });
 
-  try { 
-    console.log("API URL:", import.meta.env.VITE_API_URL);
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/register`, data);
-    toast.success('✅ Registration successful! Redirecting to login...'); 
-    setTimeout(() => { window.location.href = '/login';
-    }, 1500); 
-  } catch (err) { 
-    toast.error(err.response?.data?.error || '❌ Registration failed.'); 
-  } };
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/register`,
+        data,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      // If backend returns user + token, auto-login
+      if (res.data?.token && res.data?.user) {
+        localStorage.setItem('token', res.data.token);
+        setUser(res.data.user);
+        toast.success('✅ Registration successful! You are now logged in.');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1500);
+      } else {
+        // Otherwise, redirect to login
+        toast.success('✅ Registration successful! Redirecting to login...');
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1500);
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || '❌ Registration failed.');
+    }
+  };
 
   return (
     <div className="register-container">
       <h2>Register</h2>
       {message && <p className="message">{message}</p>}
-      <form className='' onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="form-group formWrap">
-          <label htmlFor="">Username</label>
-          <input type="text" name="username" required onChange={handleChange} className="inputUsername form-control formInput" placeholder='e.g Orji Miracle' />
-        </div>
-
-        <div className="form-group formWrap">
-          <label htmlFor="">Email</label>
-          <input type="email" name="email" required onChange={handleChange} className="inputEmail form-control formInput" placeholder='@gmail.com' />
-        </div>
-
-        <div className='form-group formWrap'>
-          <label htmlFor="">Location</label>
-          <input type="text" name='location' required  onChange={handleChange} className='inputCity form-control formInput' placeholder='Nigeria, France, Germany ...' />
-        </div>
-
-        <div className='form-group formWrap'>
-          <label htmlFor="">Bio</label>
-          <textarea type="text" name='bio' onChange={handleChange} className='inputBio form-control formInput' placeholder='Tell us about yourself! E.g., "Storm chaser from Oklahoma with a passion for supercells and sunset photography..."' />
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            required
+            onChange={handleChange}
+            className="form-control formInput"
+            placeholder="e.g Orji Miracle"
+          />
         </div>
 
         <div className="form-group formWrap">
-          <label htmlFor="">Profile Photo</label>
-          <input type="file" name="photo" accept="image/*" onChange={handleChange} className="inputPhoto form-control formInput" />
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            onChange={handleChange}
+            className="form-control formInput"
+            placeholder="@gmail.com"
+          />
         </div>
 
         <div className="form-group formWrap">
-          <label htmlFor="">Password</label>
-          <input type="password" name="password" required onChange={handleChange} className="inputPassword form-control formInput" placeholder='********' />
+          <label>Location</label>
+          <input
+            type="text"
+            name="location"
+            required
+            onChange={handleChange}
+            className="form-control formInput"
+            placeholder="Nigeria, France, Germany ..."
+          />
         </div>
 
-        <div style={{justifyContent:'center'}}>
-        <button type="submit" className="submitBtn btn regBtn">REGISTER</button>
+        <div className="form-group formWrap">
+          <label>Bio</label>
+          <textarea
+            name="bio"
+            onChange={handleChange}
+            className="form-control formInput"
+            placeholder='Tell us about yourself! E.g., "Storm chaser from Oklahoma with a passion for supercells and sunset photography..."'
+          />
+        </div>
+
+        <div className="form-group formWrap">
+          <label>Profile Photo</label>
+          <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            onChange={handleChange}
+            className="form-control formInput"
+          />
+        </div>
+
+        <div className="form-group formWrap">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            onChange={handleChange}
+            className="form-control formInput"
+            placeholder="********"
+          />
+        </div>
+
+        <div style={{ justifyContent: 'center' }}>
+          <button type="submit" className="btn regBtn submitBtn">
+            REGISTER
+          </button>
         </div>
       </form>
     </div>

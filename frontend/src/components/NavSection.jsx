@@ -3,33 +3,47 @@ import '../style/navSection.css';
 import Search from './Search';
 import { useAuth } from '../context/AuthContext';
 
-const fetchWeatherByCity = async (city) => {
-  try {
-    setLoading(true);
-    const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
-    const weatherData = await weatherRes.json();
-    if (!weatherRes.ok) throw new Error(weatherData.error);
-    setWeather(weatherData);
-    updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
-
-    const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
-    const forecastData = await forecastRes.json();
-    if (!forecastRes.ok) throw new Error(forecastData.error);
-    const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
-    setForecast(daily);
-    setError('');
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
 function NavSection({ onSearch }) {
-  const{user} = useAuth();
-  
-  if(!user){
+  const { user } = useAuth();
+
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const fetchWeatherByCity = async (city) => {
+    try {
+      setLoading(true);
+
+      // Current weather
+      const weatherRes = await fetch(
+        `${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`
+      );
+      const weatherData = await weatherRes.json();
+      if (!weatherRes.ok) throw new Error(weatherData.error);
+      setWeather(weatherData);
+
+      // Forecast
+      const forecastRes = await fetch(
+        `${import.meta.env.VITE_WEATHER_URL}/forecast?city=${encodeURIComponent(city)}`
+      );
+      const forecastData = await forecastRes.json();
+      if (!forecastRes.ok) throw new Error(forecastData.error);
+
+      const daily = forecastData.list.filter(item =>
+        item.dt_txt.includes('12:00:00')
+      );
+      setForecast(daily);
+
+      setError('');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!user) {
     return <p>Loading profile... Reload the page!</p>;
   }
 

@@ -4,20 +4,21 @@ const db = require('../models/db');
 const path = require('path');
 const fs = require('fs');
 
-// ===== create account =====
-
 exports.registerUser = async (req, res) => {
   try {
+    console.log('Register request body:', req.body);
+    console.log('Register request file:', req.file);
+
     const { username, email, location, bio, password } = req.body;
     const photo = req.file;
 
     if (!username || !email || !password) {
-      return res.status(400).json({ error: 'All fields are required.' });
+      return res.status(400).json({ error: 'Username, email, and password are required.' });
     }
 
     // Check if user already exists
-    const [existingUser] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
-    if (existingUser.length > 0) {
+    const result = await db.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (result.rows.length > 0) {
       return res.status(409).json({ error: 'Email already registered.' });
     }
 
@@ -28,28 +29,39 @@ exports.registerUser = async (req, res) => {
     const photoFilename = photo ? photo.filename : null;
 
     // Insert user into database
-    await db.query(
-      'INSERT INTO users (photo, username, email, location, bio, password) VALUES (?, ?, ?, ?, ?, ?)',
-      [photoFilename, username, email, location, bio, hashedPassword]
+    const insertResult = await db.query(
+      `INSERT INTO users (photo, username, email, location, bio, password)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id, username, email, location, bio, photo`,
+      [photoFilename, username, email, location || null, bio || null, hashedPassword]
     );
 
-    res.status(201).json({ message: 'User registered successfully.' });
+    const user = insertResult.rows[0];
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, {
+      expiresIn: '7d'
+    });
+
+    res.status(201).json({ message: 'User registered successfully.', user, token });
   } catch (err) {
-    console.error('Registration error:', err);
+    console.error('❌ Registration error:', err);
+
+    if (err.code === '23505') {
+      return res.status(400).json({ error: 'Username or email already exists.' });
+    }
+
     res.status(500).json({ error: 'Something went wrong during registration.' });
   }
 };
 
 // ===== login user =====
-
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    if (rows.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
+    const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
 
-    const user = rows[0];
+    const user = result.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: 'Invalid email or password' });
 
@@ -78,13 +90,13 @@ exports.loginUser = async (req, res) => {
 };
 
 // ===== delete user =====
-// deleting along with the photo
 exports.deleteAccount = async (req, res) => {
   const userId = req.user.id;
 
   try {
     // 1. Get user's photo filename
-    const [[user]] = await db.query('SELECT photo FROM users WHERE id = ?', [userId]);
+    const result = await db.query('SELECT photo FROM users WHERE id = $1', [userId]);
+    const user = result.rows[0];
 
     // 2. Delete photo file if it exists
     if (user?.photo) {
@@ -95,10 +107,10 @@ exports.deleteAccount = async (req, res) => {
     }
 
     // 3. Delete related favorites
-    await db.query('DELETE FROM favorites WHERE user_id = ?', [userId]);
+    await db.query('DELETE FROM favorites WHERE user_id = $1', [userId]);
 
     // 4. Delete user account
-    await db.query('DELETE FROM users WHERE id = ?', [userId]);
+    await db.query('DELETE FROM users WHERE id = $1', [userId]);
 
     res.status(200).json({ message: 'Account deleted successfully' });
   } catch (err) {
@@ -115,9 +127,10 @@ exports.updateProfile = async (req, res) => {
 
   try {
     // Get current photo filename
-    const [[user]] = await db.query('SELECT photo FROM users WHERE id = ?', [userId]);
+    const result = await db.query('SELECT photo FROM users WHERE id = $1', [userId]);
+    const user = result.rows[0];
 
-    let newPhoto = user.photo;
+    let newPhoto = user?.photo;
 
     // If a new photo is uploaded, delete the old one and update
     if (photo) {
@@ -132,7 +145,7 @@ exports.updateProfile = async (req, res) => {
 
     // Update user info
     await db.query(
-      'UPDATE users SET username = ?, email = ?, location = ?, bio = ?, photo = ? WHERE id = ?',
+      'UPDATE users SET username = $1, email = $2, location = $3, bio = $4, photo = $5 WHERE id = $6',
       [username, email, location, bio, newPhoto, userId]
     );
 
@@ -154,7 +167,8 @@ exports.changePassword = async (req, res) => {
 
   try {
     // Get current hashed password
-    const [[user]] = await db.query('SELECT password FROM users WHERE id = ?', [userId]);
+    const result = await db.query('SELECT password FROM users WHERE id = $1', [userId]);
+    const user = result.rows[0];
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
     // Compare current password
@@ -163,7 +177,7 @@ exports.changePassword = async (req, res) => {
 
     // Hash and update new password
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-    await db.query('UPDATE users SET password = ? WHERE id = ?', [hashedNewPassword, userId]);
+    await db.query('UPDATE users SET password = $1 WHERE id = $2', [hashedNewPassword, userId]);
 
     res.status(200).json({ message: 'Password updated successfully.' });
   } catch (err) {

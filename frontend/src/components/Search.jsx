@@ -7,7 +7,7 @@ function Search({ onSearch }) {
     const city = e.target.elements.city.value.trim();
     if (city) {
       onSearch(city);
-      e.target.reset(); // clear the input
+      e.target.reset();
     }
   };
 

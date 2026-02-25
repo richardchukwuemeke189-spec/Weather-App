@@ -38,10 +38,10 @@ function Profile(){
                         className="profilePic avatar"
                         src={
                             user?.photo
-                            ? `http://localhost:5000/uploads/${user.photo}`
+                            ? `${import.meta.env.VITE_UPLOADS_URL}/${user.photo}`
                             : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg'
                         }
-                        alt="Profile"
+                        alt="Profile-Picture"
                         />
                     </div>
 

@@ -7,13 +7,13 @@ const {
   getCityByCoordinates
 } = require('../controllers/weatherController');
 
-// Route to get current weather by city name
+// ===== Current Weather =====
 router.get('/', getWeatherByCity);
 
-// Route to get 5-day forecast by city name
+// ===== 5-Day Forecast =====
 router.get('/forecast', getFiveDayForecast);
 
-// Route to get city name from coordinates
+// ===== Reverse Geocoding =====
 router.get('/geolocate', getCityByCoordinates);
 
 module.exports = router;

@@ -45,7 +45,9 @@ function WeatherCard() {
       const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
       const forecastData = await forecastRes.json();
       if (!forecastRes.ok) throw new Error(forecastData.error);
-      const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
+      const daily = Array.isArray(forecastData.list)
+      ? forecastData.list.filter(item => item.dt_txt && item.dt_txt.includes('12:00:00'))
+      : [];
       setForecast(daily);
       setError('');
     } catch (err) {
@@ -69,7 +71,9 @@ function WeatherCard() {
         const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
         const forecastData = await forecastRes.json();
         if (!forecastRes.ok) throw new Error(forecastData.error);
-        const daily = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'));
+        const daily = Array.isArray(forecastData.list)
+        ? forecastData.list.filter(item => item.dt_txt && item.dt_txt.includes('12:00:00'))
+        : [];
         setForecast(daily);
         setError('');
       } catch (err) {
