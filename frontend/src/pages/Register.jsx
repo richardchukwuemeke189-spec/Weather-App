@@ -36,7 +36,8 @@ function Register() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/register`,
+        // `${import.meta.env.VITE_API_URL}/register`,
+        'https://weather-backend-001h.onrender.com/api/auth/register',
         data,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
