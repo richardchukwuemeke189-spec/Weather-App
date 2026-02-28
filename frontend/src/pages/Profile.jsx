@@ -8,6 +8,7 @@ import FooterComponents from "../components/FooterComponents";
 function Profile(){
   const { user, setUser } = useAuth(); // make sure setUser is exposed in AuthContext
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,21 +28,16 @@ function Profile(){
       } catch (err) {
         console.error('Failed to fetch user:', err);
         setError('⚠️ Unable to load profile. Please check your connection or try again later.');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, [setUser]);
 
-  if (error) {
-    return (
-      <div className="profileCard">
-        <p className="error-message">{error}</p>
-      </div>
-    );
-  }
-
-  if (!user) {
+  // Show skeletons while loading
+  if (loading && !error && !user) {
     return (
       <div className="profileCard">
         <div className="banner skeleton"></div>
@@ -60,10 +56,24 @@ function Profile(){
     );
   }
 
+  // Show error if fetch fails
+  if (error) {
+    return (
+      <div className="profileCard">
+        <p className="error-message">{error}</p>
+        <button onClick={() => window.location.reload()} className="btn btn-warning">
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  // Show profile if user data is available
   return (
     <>
       <div className="profileCard row">
         <div className="banner"></div>
+
         <div className="profilePicWrap profile-body col-10 col-sm-10 col-md-3 col-lg-3">
           <div className="avatar-container" style={{justifySelf:"center"}}>
             <img
@@ -76,6 +86,7 @@ function Profile(){
               alt="Profile-Picture"
             />
           </div>
+
           <div className="user-info mt-3">
             <div className="username">{user?.username || 'Guest'}</div>
             <br />
@@ -84,6 +95,7 @@ function Profile(){
             <span>{user?.location}</span>
             <p className="mt-2">{user?.bio}</p>
           </div>
+          
           <div className="profileButtonWrap">
             <div>
               <Link to='/profileForm'>
@@ -97,9 +109,11 @@ function Profile(){
             </div>
           </div>
         </div>
+
         <div className="weatherComponent col-10 col-sm-10 col-md-7 col-lg-7">
           <WeatherCard />
         </div>
+
         <Link to='/favoriteCities' className="favorite-card">
           <span><i className="bi bi-geo-alt-fill"></i></span>
           <p>Favorite Cities</p>
