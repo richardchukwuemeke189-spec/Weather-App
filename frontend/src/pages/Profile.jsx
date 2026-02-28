@@ -13,7 +13,7 @@ function Profile(){
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch('https://weather-backend-001h.onrender.com/api/user/profile', {
+        const res = await fetch('https://weather-backend-001h.onrender.com/api/user', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
