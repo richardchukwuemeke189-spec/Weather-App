@@ -27,6 +27,24 @@ function Profile(){
         );
     }
 
+    useEffect(() => {
+    const fetchUser = async () => {
+        try {
+        const res = await fetch('https://weather-backend-001h.onrender.com/api/user/profile', {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const data = await res.json();
+        setUser(data.user); // assuming you have setUser from context or local state
+        } catch (err) {
+        console.error('Failed to fetch user:', err);
+        }
+    };
+
+    fetchUser();
+    }, []);
+
     return(
         <>
             <div className="profileCard row">
