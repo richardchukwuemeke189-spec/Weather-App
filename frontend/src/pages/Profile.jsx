@@ -6,7 +6,7 @@ import WeatherCard from "../components/WeatherCard";
 import FooterComponents from "../components/FooterComponents";
 
 function Profile(){
-  const { user, setUser } = useAuth(); // make sure setUser is exposed in AuthContext
+  const { user, setUser } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
