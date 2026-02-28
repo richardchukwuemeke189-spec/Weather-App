@@ -1,32 +1,3 @@
-// import { createContext, useContext, useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-
-//   // Load user on mount if token exists
-//   useEffect(() => {
-//     const token = localStorage.getItem('token');
-//     if (token) {
-//       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-//       axios.get('http://localhost:5000/api/user/me')
-//         .then(res => setUser(res.data))
-//         .catch(() => setUser(null));
-//     }
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider value={{ user, setUser }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
-
-
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
