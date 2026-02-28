@@ -17,7 +17,8 @@ function NavSection({ onSearch }) {
 
       // Current weather
       const weatherRes = await fetch(
-        `${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`
+        // `${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`
+        `https://weather-backend-001h.onrender.com/api/weather?city=${encodeURIComponent(city)}`
       );
       const weatherData = await weatherRes.json();
       if (!weatherRes.ok) throw new Error(weatherData.error);
@@ -25,7 +26,8 @@ function NavSection({ onSearch }) {
 
       // Forecast
       const forecastRes = await fetch(
-        `${import.meta.env.VITE_WEATHER_URL}/forecast?city=${encodeURIComponent(city)}`
+        // `${import.meta.env.VITE_WEATHER_URL}/forecast?city=${encodeURIComponent(city)}`
+        `https://weather-backend-001h.onrender.com/api/weather/forecast?city=${encodeURIComponent(city)}`
       );
       const forecastData = await forecastRes.json();
       if (!forecastRes.ok) throw new Error(forecastData.error);
@@ -54,7 +56,8 @@ function NavSection({ onSearch }) {
           className="profilePhoto"
           src={
             user?.photo
-              ? `${import.meta.env.VITE_UPLOADS_URL}/${user.photo}`
+              // ? `${import.meta.env.VITE_UPLOADS_URL}/${user.photo}`
+              ? `https://weather-backend-001h.onrender.com/uploads/${user.photo}`
               : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg'
           }
           alt="Profile"
@@ -72,7 +75,8 @@ function NavSection({ onSearch }) {
           className="profilePhoto"
           src={
             user?.photo
-              ? `${import.meta.env.VITE_UPLOADS_URL}/${user.photo}`
+              // ? `${import.meta.env.VITE_UPLOADS_URL}/${user.photo}`
+              ? `https://weather-backend-001h.onrender.com/uploads/${user.photo}`
               : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg'
           }
           alt="Profile"

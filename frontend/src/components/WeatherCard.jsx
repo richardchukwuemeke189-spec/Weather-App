@@ -36,13 +36,15 @@ function WeatherCard() {
   const fetchWeather = async (lat, lon) => {
     try {
       setLoading(true);
-      const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
+      // const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
+      const weatherRes = await fetch(`https://weather-backend-001h.onrender.com/api/weather?lat=${lat}&lon=${lon}`);
       const weatherData = await weatherRes.json();
       if (!weatherRes.ok) throw new Error(weatherData.error);
       setWeather(weatherData);
       updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
-      const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
+      // const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?lat=${lat}&lon=${lon}`);
+      const forecastRes = await fetch(`https://weather-backend-001h.onrender.com/api/weather?lat=${lat}&lon=${lon}`);
       const forecastData = await forecastRes.json();
       if (!forecastRes.ok) throw new Error(forecastData.error);
       const daily = Array.isArray(forecastData.list)
@@ -62,13 +64,15 @@ function WeatherCard() {
     const fetchByCity = async () => {
       try {
         setLoading(true);
-        const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
+        // const weatherRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
+        const weatherRes = await fetch(`https://weather-backend-001h.onrender.com/api/weather?city=${encodeURIComponent(city)}`);
         const weatherData = await weatherRes.json();
         if (!weatherRes.ok) throw new Error(weatherData.error);
         setWeather(weatherData);
         updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
-        const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
+        // const forecastRes = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city)}`);
+        const forecastRes = await fetch(`https://weather-backend-001h.onrender.com/api/weather?city=${encodeURIComponent(city)}`);
         const forecastData = await forecastRes.json();
         if (!forecastRes.ok) throw new Error(forecastData.error);
         const daily = Array.isArray(forecastData.list)

@@ -31,7 +31,8 @@ function ChangePasswordForm() {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_USER_URL}/password`, {
+      // const res = await fetch(`${import.meta.env.VITE_USER_URL}/password`, {
+      const res = await fetch(`https://weather-backend-001h.onrender.com/api/user/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

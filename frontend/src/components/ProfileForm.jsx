@@ -21,7 +21,8 @@ function ProfileForm() {
   useEffect(() => {
     // Fetch current user info
     const token = localStorage.getItem('token');
-    fetch(`${import.meta.env.VITE_USER_URL}/me`, {
+    // fetch(`${import.meta.env.VITE_USER_URL}/me`, {
+    fetch(`https://weather-backend-001h.onrender.com/api/user/me`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -36,7 +37,8 @@ function ProfileForm() {
           bio: data.bio || '',
         }));
         if (data.photo) {
-          setPreview(`${import.meta.env.VITE_UPLOADS_URL}/${data.photo}`);
+          // setPreview(`${import.meta.env.VITE_UPLOADS_URL}/${data.photo}`);
+          setPreview(`https://weather-backend-001h.onrender.com/uploads/${data.photo}`);
         }
       })
       .catch(err => {
@@ -67,7 +69,8 @@ function ProfileForm() {
     if (formData.photo) form.append('photo', formData.photo);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_USER_URL}/api/user/update`, {
+      // const res = await fetch(`${import.meta.env.VITE_USER_URL}/api/user/update`, {
+      const res = await fetch(`https://weather-backend-001h.onrender.com/api/user/update`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`

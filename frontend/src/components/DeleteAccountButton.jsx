@@ -11,7 +11,8 @@ function DeleteAccountButton() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_USER_URL}/delete`, {
+      // const res = await fetch(`${import.meta.env.VITE_USER_URL}/delete`, {
+      const res = await fetch(`https://weather-backend-001h.onrender.com/api/user/delete`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`

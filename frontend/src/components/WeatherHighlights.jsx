@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import '../style/weatherHighlights.css';
 
 function WeatherHighlights() {
-  const baseUrl = import.meta.env.VITE_WEATHER_URL;
+  // const baseUrl = import.meta.env.VITE_WEATHER_URL;
+  const baseUrl = `https://weather-backend-001h.onrender.com/api/weather`;
 
   const [highlights, setHighlights] = useState([
     { id: 'lodwar', type: 'hot', city: 'Lodwar', country: 'Kenya', loading: true },

@@ -51,7 +51,8 @@ const CityCarousel = () => {
 
     for (const city of cities) {
       try {
-        const res = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city.name)}`);
+        // const res = await fetch(`${import.meta.env.VITE_WEATHER_URL}?city=${encodeURIComponent(city.name)}`);
+        const res = await fetch(`https://weather-backend-001h.onrender.com/api/weather?city=${encodeURIComponent(city.name)}`);
         const data = await res.json();
         results[city.name] = {
           temp: data.temperature,
