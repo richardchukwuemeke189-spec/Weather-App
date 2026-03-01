@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFavorites, removeFavorite as removeFavoriteAPI } from '../utils/favoritesService';
+import { getFavorites, removeFavorite as removeFavoriteAPI } from '../utils/favorites';
 import { useNavigate, Link } from 'react-router-dom';
 import '../style/favoriteCities.css';
 import FooterComponents from './FooterComponents';
