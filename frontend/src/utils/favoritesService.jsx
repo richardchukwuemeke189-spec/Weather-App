@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api/favorites', // adjust if needed
+  baseURL: 'https://weather-backend-001h.onrender.com/api/favorites',
 });
 
 API.interceptors.request.use((config) => {
