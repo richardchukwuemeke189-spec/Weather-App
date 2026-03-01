@@ -31,16 +31,11 @@ function WeatherWidget({ city }) {
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // ================================
   // Normalize forecast data
-  // ================================
   const normalizeForecast = (data) => {
     if (!Array.isArray(data)) return [];
-
     return data
-      .filter(item =>
-        (item.dt_txt || item.date || '').includes('12:00:00')
-      )
+      .filter(item => (item.dt_txt || item.date || '').includes('12:00:00'))
       .map(item => ({
         date: item.dt_txt || item.date,
         icon: item.icon,
@@ -49,63 +44,45 @@ function WeatherWidget({ city }) {
       }));
   };
 
-  // ================================
   // Fetch weather (city OR coords)
-  // ================================
   const fetchWeather = useCallback(async (params, controller) => {
     try {
       setLoading(true);
       setError('');
 
       const query = new URLSearchParams(params).toString();
-      // const baseUrl = import.meta.env.VITE_WEATHER_URL;
       const baseUrl = `https://weather-backend-001h.onrender.com/api/weather`;
 
       // Current weather
-      const weatherRes = await fetch(`${baseUrl}?${query}`, {
-        signal: controller.signal
-      });
+      const weatherRes = await fetch(`${baseUrl}?${query}`, { signal: controller.signal });
       const weatherData = await weatherRes.json();
-
       if (!weatherRes.ok) throw new Error(weatherData.error || 'Weather error');
 
       setWeather(weatherData);
       updateTheme(weatherData, weatherData.sunrise, weatherData.sunset);
 
       // Forecast
-      const forecastRes = await fetch(`${baseUrl}/forecast?${query}`, {
-        signal: controller.signal
-      });
+      const forecastRes = await fetch(`${baseUrl}/forecast?${query}`, { signal: controller.signal });
       const forecastData = await forecastRes.json();
-
       if (!forecastRes.ok) throw new Error(forecastData.error || 'Forecast error');
 
       setForecast(normalizeForecast(forecastData.forecast));
-
     } catch (err) {
-      if (err.name !== 'AbortError') {
-        setError(err.message);
-      }
+      if (err.name !== 'AbortError') setError(err.message);
     } finally {
       setLoading(false);
     }
   }, [updateTheme]);
 
-  // ================================
   // Main Effect
-  // ================================
   useEffect(() => {
     const controller = new AbortController();
-
     if (city) {
-      fetchWeather({ city: encodeURIComponent(city) }, controller);
+      fetchWeather({ city }, controller); // ✅ no encodeURIComponent
     } else {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
-          fetchWeather(
-            { lat: coords.latitude, lon: coords.longitude },
-            controller
-          );
+          fetchWeather({ lat: coords.latitude, lon: coords.longitude }, controller);
         },
         () => {
           setError('Location access denied. Please enter a city.');
@@ -113,16 +90,12 @@ function WeatherWidget({ city }) {
         }
       );
     }
-
     return () => controller.abort();
   }, [city, fetchWeather]);
 
-  // ================================
   // Favorites Effect
-  // ================================
   useEffect(() => {
     if (!city) return;
-
     getFavorites()
       .then(favs => setIsFavorite(favs.includes(city)))
       .catch(err => console.error('Favorites error:', err));
@@ -130,7 +103,6 @@ function WeatherWidget({ city }) {
 
   const toggleFavorite = async () => {
     if (!city) return;
-
     try {
       if (isFavorite) {
         await removeFavorite(city);
@@ -144,34 +116,10 @@ function WeatherWidget({ city }) {
     }
   };
 
-  // ================================
-  // Loading Skeleton
-  // ================================
+  // Render
   if (loading) {
-    return (
-      <div className="weather-widget-wrapper m-5">
-        <div className="weather-main">
-          <div className="weather-card skeleton-card">
-            <div className="skeleton skeleton-icon"></div>
-            <div className="skeleton skeleton-title"></div>
-            <div className="skeleton skeleton-temp"></div>
-            <div className="skeleton skeleton-desc"></div>
-            <div className="skeleton skeleton-button"></div>
-          </div>
-
-          <div className="wind-card skeleton-card">
-            <div className="skeleton skeleton-title"></div>
-            <div className="skeleton skeleton-wind-value"></div>
-            <div className="skeleton skeleton-wind-lines"></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <div className="weather-widget-wrapper m-5">Loading...</div>;
   }
-
-  // ================================
-  // Error
-  // ================================
   if (error) {
     return (
       <div className="weather-error">
@@ -180,70 +128,37 @@ function WeatherWidget({ city }) {
       </div>
     );
   }
-
   if (!weather) return null;
 
   const mainCondition = weather.main || 'Clear';
   const theme = weatherThemes[mainCondition] || weatherThemes['Clear'];
 
-  // ================================
-  // Render
-  // ================================
   return (
     <div>
       <TimeZone weather={weather} />
-
       <div className="weather-widget-wrapper m-5">
         <div className="weather-main">
-
-          <div
-            className="weather-card"
-            style={{ background: theme.background }}
-          >
+          <div className="weather-card" style={{ background: theme.background }}>
             <div className="weather-icon">{theme.icon}</div>
             <h3>{weather.city}</h3>
             <p className="weather-temp">{weather.temperature}°C</p>
             <p className="weather-desc">{weather.description}</p>
-
-            <button
-              onClick={toggleFavorite}
-              className="favorite-btn"
-              disabled={!weather}
-            >
+            <button onClick={toggleFavorite} className="favorite-btn" disabled={!weather}>
               {isFavorite ? '★ Remove Favorite' : '☆ Save Favorite'}
             </button>
           </div>
-
           <div className="wind-card">
             <h3 className="wind-label">Wind Speed</h3>
-            <div className="wind-speed-container mt-5">
-              <p className="wind-value">
-                {weather.windSpeed !== undefined
-                  ? `${weather.windSpeed} m/s`
-                  : 'N/A'}
-              </p>
-
-              <div className="wind-animation">
-                <div className="stream line-1"></div>
-                <div className="stream line-2"></div>
-                <div className="stream line-3"></div>
-              </div>
-            </div>
+            <p className="wind-value">
+              {weather.windSpeed !== undefined ? `${weather.windSpeed} m/s` : 'N/A'}
+            </p>
           </div>
         </div>
-
-        <div
-          className="forecast-scroll mb-5 ms-5 me-5"
-          style={{ marginTop: '100px' }}
-        >
+        <div className="forecast-scroll mb-5 ms-5 me-5" style={{ marginTop: '100px' }}>
           <div className="forecast">
             {forecast.map((day, index) => (
               <div key={index} className="forecast-day">
-                <p>
-                  {new Date(day.date).toLocaleDateString(undefined, {
-                    weekday: 'short'
-                  })}
-                </p>
+                <p>{new Date(day.date).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                 <img
                   src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
                   alt={day.description}
