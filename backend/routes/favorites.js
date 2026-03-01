@@ -3,10 +3,13 @@ const router = express.Router();
 const db = require('../models/db');
 const { authenticateToken } = require('../middleware/authMiddleware');
 
-// GET /api/favorites - Get all favorite cities for the logged-in user
+// ===== Get all favorites =====
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const result = await db.query('SELECT city_name FROM favorites WHERE user_id = $1', [req.user.id]);
+    const result = await db.query(
+      'SELECT city_name FROM favorites WHERE user_id = $1',
+      [req.user.id]
+    );
     const cities = result.rows.map(row => row.city_name);
     res.json({ favorites: cities });
   } catch (err) {
@@ -15,26 +18,30 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-// POST /api/favorites/add - Add a favorite city
-router.post('/add', authenticateToken, async (req, res) => {
+// ===== Add a favorite =====
+router.post('/', authenticateToken, async (req, res) => {
   const { city } = req.body;
   const userId = Number(req.user.id);
+
+  if (!city) {
+    return res.status(400).json({ error: 'City name is required.' });
+  }
 
   try {
     await db.query(
       'INSERT INTO favorites (user_id, city_name) VALUES ($1, $2)',
       [userId, city]
     );
-    res.json({ message: 'City added to favorites' });
+    res.status(201).json({ message: 'City added to favorites' });
   } catch (err) {
     console.error('❌ Error adding favorite:', err);
     res.status(500).json({ error: 'Failed to add favorite' });
   }
 });
 
-// POST /api/favorites/remove - Remove a favorite city
-router.post('/remove', authenticateToken, async (req, res) => {
-  const { city } = req.body;
+// ===== Remove a favorite =====
+router.delete('/:city', authenticateToken, async (req, res) => {
+  const { city } = req.params;
   const userId = Number(req.user.id);
 
   try {
