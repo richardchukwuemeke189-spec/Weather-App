@@ -17,7 +17,6 @@
 .carousel-subtext {
   text-align: center;
   font-size: 0.95rem;
-  /* color: #ffffffdc; */
   margin-bottom: 1rem;
 }
 
@@ -29,4 +28,19 @@
     .carousel-subtext{
         color: grey;
     }
+}
+
+.mobileNavSection {
+  display: none;
+}
+
+/* mobile screens */
+@media (max-width: 768px) {
+  .mobileNavSection {
+    display: block;
+  }
+
+  .homeWrap > .navSectionWrap {
+    display: none;
+  }
 }

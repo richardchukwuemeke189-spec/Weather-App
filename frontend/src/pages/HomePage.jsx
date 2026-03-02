@@ -25,6 +25,9 @@ function Home() {
       <div className="homeWrap">
         <NavSection onSearch={handleSearch} />
         <WeatherWidget city={city} />
+        <div className='mt-3 mobileNavSection'>
+          <NavSection onSearch={handleSearch} />
+        </div>
         <div className="exploreContainerHome">
           <h2 className="carousel-heading">🌍 Explore Popular Cities</h2>
           <p className="carousel-subtext" style={{ color: '#ffffffdc' }}>
