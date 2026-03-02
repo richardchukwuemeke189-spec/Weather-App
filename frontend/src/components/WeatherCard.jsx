@@ -135,16 +135,11 @@ const toggleFavorite = async () => {
 // ======================
 
 if (loading) return <p>Loading weather...</p>;
-  if (error) return <p className="weather-error">Error: {error}</p>;
+  if (error) return <p className="weather-error" style={{color:'red'}}>Error: {error}</p>;
   if (!weather) return null;
 
   const mainCondition = weather.main || 'Clear';
   const theme = weatherThemes[mainCondition] || weatherThemes['Clear'];
-
-  // ===== favorites =====
-
-
-
 
   return (
     <div>

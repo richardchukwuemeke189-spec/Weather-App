@@ -68,7 +68,6 @@ function Profile(){
     );
   }
 
-  // Show profile if user data is available
   return (
     <>
       <div className="profileCard row">

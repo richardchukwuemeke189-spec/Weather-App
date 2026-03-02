@@ -123,7 +123,7 @@ function WeatherWidget({ city }) {
   if (error) {
     return (
       <div className="weather-error">
-        <p>{error}</p>
+        <p style={{color:'red'}}>{error}</p>
         <p>You can search for a city manually above.</p>
       </div>
     );
@@ -151,6 +151,11 @@ function WeatherWidget({ city }) {
             <h3 className="wind-label">Wind Speed</h3>
             <p className="wind-value">
               {weather.windSpeed !== undefined ? `${weather.windSpeed} m/s` : 'N/A'}
+              <div className="wind-animation">
+                <div className="stream line-1"></div>
+                <div className="stream line-2"></div>
+                <div className="stream line-3"></div>
+              </div>
             </p>
           </div>
         </div>
