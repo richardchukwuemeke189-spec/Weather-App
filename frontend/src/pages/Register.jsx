@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
-import './register.css';
+import '../style/form.css'
 
 function Register() {
   const [formData, setFormData] = useState({
