@@ -8,6 +8,12 @@ function Search({ onSearch }) {
     if (city) {
       onSearch(city);
       e.target.reset();
+
+      // Scroll back to top after searching
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // smooth animation
+      });
     }
   };
 
@@ -15,17 +21,17 @@ function Search({ onSearch }) {
     <div>
       <form onSubmit={handleSubmit} className='searchForm'>
         <div>
-        <input
-          name="city"
-          className="search searchInput form-control"
-          type="search"
-          placeholder="Enter city name"
-        />
+          <input
+            name="city"
+            className="search searchInput form-control"
+            type="search"
+            placeholder="Enter city name"
+          />
         </div>
         <div>
-        <button type="submit" className="btn btn-primary">
-          Search
-        </button>
+          <button type="submit" className="btn btn-primary">
+            Search
+          </button>
         </div>
       </form>
     </div>

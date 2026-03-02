@@ -32,23 +32,24 @@
 
 /* Mobile styles */
 @media (max-width: 767px) {
+  /* Hide desktop photo */
   .profilePhotoWrap {
     display: none;
   }
 
+  /* Stack search below name/photo */
+  .navSectionWrap {
+    flex-direction: column; /* stack vertically */
+    align-items: center;    /* center horizontally */
+    text-align: center;
+  }
+
   .searchWrap {
-    position: fixed;
-    margin-top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-left: 0;         /* reset desktop margin */
+    margin-top: 15px;       /* spacing below name/photo */
     width: 90%;
     max-width: 400px;
     justify-content: center;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 25px;
-    padding: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
 }
 
