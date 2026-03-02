@@ -46,7 +46,7 @@ function Navbar() {
       <Link to="/profile" className="nav-item">
         <span className="linkTxt">Profile</span>
         <span className="linkIcon">
-          <i className={currentPath === '/profile' ? 'bi bi-gear-fill' : 'bi bi-gear'}></i>
+          <i className={currentPath === '/profile' ? 'bi bi-person-fill' : 'bi bi-person'}></i>
         </span>
       </Link>
     </nav>

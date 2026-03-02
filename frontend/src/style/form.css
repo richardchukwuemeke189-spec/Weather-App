@@ -46,11 +46,13 @@
   margin-top: 20px;
 }
 
-.form-group input, .form-group textarea, .formWrap input{
+.form-group input, 
+.form-group textarea, 
+.formWrap input {
   justify-self: center;
 }
 
-.form-group label{
+.form-group label {
   margin-top: 20px;
   font-weight: bold;
   font-size: large;
@@ -65,6 +67,7 @@
   font-weight: 500;
   width: auto;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .loginBtn {
@@ -83,6 +86,33 @@
 
 .regBtn:hover {
   background: #16A34A;
+}
+
+/* Disabled button state */
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Overlay loader */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.overlay-text {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Responsive tweaks */

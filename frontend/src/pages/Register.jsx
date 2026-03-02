@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import './register.css';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ function Register() {
   });
 
   const { setUser } = useAuth();
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -27,7 +28,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setLoading(true);
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -36,13 +37,11 @@ function Register() {
 
     try {
       const res = await axios.post(
-        // `${import.meta.env.VITE_API_URL}/register`,
         'https://weather-backend-001h.onrender.com/api/auth/register',
         data,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
-      // If backend returns user + token, auto-login
       if (res.data?.token && res.data?.user) {
         localStorage.setItem('token', res.data.token);
         setUser(res.data.user);
@@ -51,7 +50,6 @@ function Register() {
           window.location.href = '/';
         }, 1500);
       } else {
-        // Otherwise, redirect to login
         toast.success('✅ Registration successful! Redirecting to login...');
         setTimeout(() => {
           window.location.href = '/login';
@@ -59,13 +57,15 @@ function Register() {
       }
     } catch (err) {
       toast.error(err.response?.data?.error || '❌ Registration failed.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-container">
       <h2>Register</h2>
-      {message && <p className="message">{message}</p>}
+
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="form-group formWrap">
           <label>Username</label>
@@ -109,7 +109,7 @@ function Register() {
             name="bio"
             onChange={handleChange}
             className="form-control formInput"
-            placeholder='Tell us about yourself! E.g., "Storm chaser from Oklahoma with a passion for supercells and sunset photography..."'
+            placeholder='Tell us about yourself!'
           />
         </div>
 
@@ -137,11 +137,36 @@ function Register() {
         </div>
 
         <div style={{ justifyContent: 'center' }}>
-          <button type="submit" className="btn regBtn submitBtn">
-            REGISTER
+          <button 
+            type="submit" 
+            className="btn regBtn submitBtn" 
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span 
+                  className="spinner-border spinner-border-sm" 
+                  role="status" 
+                  aria-hidden="true"
+                ></span>
+                &nbsp; Loading...
+              </>
+            ) : (
+              "REGISTER"
+            )}
           </button>
         </div>
       </form>
+
+      {/* Global overlay loader */}
+      {loading && (
+        <div className="overlay">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="overlay-text">Processing your registration...</p>
+        </div>
+      )}
     </div>
   );
 }
