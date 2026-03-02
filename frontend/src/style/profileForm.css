@@ -55,6 +55,20 @@ label {
   background: #1e4db7;
 }
 
+.updatePass {
+  background: #2563EB;
+  color: white;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.updatePass:hover {
+  background: #1e4db7;
+}
+
 .form-message {
   margin-top: 15px;
   color: red;
@@ -91,22 +105,3 @@ label {
     text-align: center;
     font-weight: bold;
 }
-
-/* .form-group {
-  margin-bottom: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.updateInput {
-  width: 100%;
-  max-width: 500px;
-  padding: 10px;
-  border-radius: 10px;
-  box-sizing: border-box;
-} */

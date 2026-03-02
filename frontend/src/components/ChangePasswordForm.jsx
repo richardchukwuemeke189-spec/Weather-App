@@ -76,7 +76,7 @@ function ChangePasswordForm() {
         <input type="password" className='form-control formInput updateInput' name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
       </label>
 
-      <button type="submit">Update Password</button>
+      <button type="submit" className='updatePass'>Update Password</button>
       {message && <p className="form-message">{message}</p>}
     </form>
     </div>
