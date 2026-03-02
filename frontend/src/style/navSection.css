@@ -32,15 +32,14 @@
 
 /* Mobile styles */
 @media (max-width: 767px) {
-  /* Hide desktop search + photo */
   .profilePhotoWrap {
     display: none;
   }
 
-  /* Move search bar to bottom center */
   .searchWrap {
     position: fixed;
-    bottom: 20px;
+    /* bottom: 20px; */
+    margin-top: 10px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
