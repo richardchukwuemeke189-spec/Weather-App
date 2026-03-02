@@ -1,46 +1,62 @@
-.helloTxt{
-    font-weight: lighter;
+.helloTxt {
+  font-weight: lighter;
 }
 
-.usernameTxt{
-    font-weight: bold;
-    letter-spacing: 2px;
+.usernameTxt {
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.searchWrap{
-    margin-left: auto;
+.searchWrap {
+  margin-left: auto;
 }
 
-.search{
-    border-radius: 10px;
-    border: none;
-    background-color: rgba(128, 128, 128, 0.148);
-    padding: 8px 20px;
+.search {
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(128, 128, 128, 0.148);
+  padding: 8px 20px;
 }
 
-.profilePhotoWrap img, .profilePhotoWrapTwo img{
+.profilePhotoWrap img,
+.profilePhotoWrapTwo img {
   width: 50px;
   height: 50px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.profilePhotoWrapTwo{
-    margin-left: auto;
+.profilePhotoWrapTwo {
+  margin-left: auto;
 }
 
-@media(max-width: 767px){
-    .searchWrap{
-        display: none;
-    }
+/* Mobile styles */
+@media (max-width: 767px) {
+  /* Hide desktop search + photo */
+  .profilePhotoWrap {
+    display: none;
+  }
 
-    .profilePhotoWrap{
-        display: none;
-    }
+  /* Move search bar to bottom center */
+  .searchWrap {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    justify-content: center;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    padding: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
 }
 
-@media(min-width: 767px){
-    .profilePhotoWrapTwo{
-        display: none;
-    }
+/* Desktop styles */
+@media (min-width: 767px) {
+  .profilePhotoWrapTwo {
+    display: none;
+  }
 }

@@ -29,18 +29,3 @@
         color: grey;
     }
 }
-
-.mobileNavSection {
-  display: none;
-}
-
-/* mobile screens */
-@media (max-width: 768px) {
-  .mobileNavSection {
-    display: block;
-  }
-
-  .homeWrap > .navSectionWrap {
-    display: none;
-  }
-}
