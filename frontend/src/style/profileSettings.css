@@ -1,79 +1,170 @@
-.profile-settings h2 {
-  font-weight: bold;
-  letter-spacing: 3px;
+/* =========================
+   Page Wrapper
+========================= */
+
+.settings-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* =========================
+   Card Container
+========================= */
+
+.settings-card {
+  width: 100%;
+  max-width: 720px;
+  padding: 40px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================
+   Title
+========================= */
+
+.settings-title {
+  font-size: 28px;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
 }
 
-/* Responsive image cards */
-.editProfileCard img,
-.changePasswordCard img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.4s ease-in-out;
-}
+/* =========================
+   Sections
+========================= */
 
-.editProfileCard img:hover,
-.changePasswordCard img:hover {
-  transform: scale(1.05);
-}
-
-/* Responsive layout for cards */
-.settingsWrap {
+.settings-section {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.settingsCard {
-  flex: 1 1 300px;
-  max-width: 400px;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  transition: background 0.3s ease;
 }
 
-/* Responsive button layout */
-.functionBtnWrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+.settings-section:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.functionBtnWrap > div {
-  flex: 1 1 150px;
-  max-width: 200px;
+.settings-info h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.settingsImgWrap {
-  background-color: white;
-  border-radius: 50%;
-  padding: 10px;
-  display: inline-block;
-  max-width: 300px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  justify-self: center;
+.settings-info p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
-.settingsImgWrap img {
-  width: 100%;
-  height: auto;
-  border-radius: 50%;
-  display: block;
+/* =========================
+   Divider
+========================= */
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
 }
 
-@media (max-width: 500px) {
-  .settingsImgWrap {
-    width: 160px;
-    height: 160px;
-    padding: 3px;
+/* =========================
+   Buttons
+========================= */
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.primary-btn:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+}
+
+.danger-zone {
+  margin-top: 35px;
+}
+
+.danger-zone h3 {
+  color: #ef4444;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.logout-wrap {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .settings-card {
+    padding: 30px;
+  }
+}
+
+/* Small Tablets & Large Phones */
+@media (max-width: 768px) {
+  .settings-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .primary-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .settings-page {
+    padding: 20px 15px;
+  }
+
+  .settings-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .settings-title {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .settings-info h3 {
+    font-size: 16px;
+  }
+
+  .settings-info p {
+    font-size: 13px;
+  }
+
+  .primary-btn {
+    font-size: 13px;
+    padding: 10px;
   }
 }

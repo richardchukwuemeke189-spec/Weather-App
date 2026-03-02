@@ -1,40 +1,55 @@
 import DeleteAccountButton from '../components/DeleteAccountButton';
-import LogoutButton from '../components/LogoutButton'
-import { useTheme } from '../context/ThemeContext';
+import LogoutButton from '../components/LogoutButton';
 import { Link } from 'react-router-dom';
-import '../style/profileSettings.css'
-import editProf from '../images/editProf.png'
-import chanagePassword from '../images/changePassword.png'
+import { useTheme } from '../context/ThemeContext';
+import '../style/profileSettings.css';
 
 function ProfileSettings() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <div className="profile-settings" style={{padding:'20px'}}>
-      <h2>Settings</h2>
+    <div className="settings-page">
+      <div className="settings-card">
+        <h1 className="settings-title">Settings</h1>
 
-      <div className='settingsWrap row'>
-        <div className='settingsCard editProfileCard col-12 col-sm-12 col-md-5 col-lg-4'>
-          <div className='settingsImgWrap'>
-            <Link to='/profileForm'>
-              <img src={editProf} alt="edit-profile" />
-            </Link>
+        {/* Profile Section */}
+        <div className="settings-section">
+          <div className="settings-info">
+            <h3>Profile</h3>
+            <p>Update your account information</p>
           </div>
+
+          <Link to="/profileForm" className="primary-btn">
+            Edit Profile
+          </Link>
         </div>
 
-        <div className='settingsCard changePasswordCard col-12 col-sm-12 col-md-5 col-lg-5'>
-          <div className='settingsImgWrap'>
-            <Link to='/changePasswordForm'>
-              <img src={chanagePassword} alt="change-password" />
-            </Link>
+        {/* Divider */}
+        <div className="divider" />
+
+        {/* Security Section */}
+        <div className="settings-section">
+          <div className="settings-info">
+            <h3>Security</h3>
+            <p>Change your password</p>
           </div>
+
+          <Link to="/changePasswordForm" className="primary-btn">
+            Change Password
+          </Link>
         </div>
-      </div>
-      <div className='functionBtnWrap'>
-        <div>
+
+        {/* Divider */}
+        <div className="divider" />
+
+        {/* Danger Zone */}
+        <div className="danger-zone">
+          <h3>Danger Zone</h3>
           <DeleteAccountButton />
         </div>
-        <div>
+
+        {/* Logout */}
+        <div className="logout-wrap">
           <LogoutButton />
         </div>
       </div>
