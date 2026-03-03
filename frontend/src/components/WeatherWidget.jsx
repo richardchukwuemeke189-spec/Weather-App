@@ -118,7 +118,7 @@ function WeatherWidget({ city }) {
 
   // Render
   if (loading) {
-    return <div className="weather-widget-wrapper m-5">Loading...</div>;
+    return <div className="weather-widget-wrapper m-5">Loading weather...</div>;
   }
   if (error) {
     return (
