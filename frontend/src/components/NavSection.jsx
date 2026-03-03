@@ -60,6 +60,7 @@ function NavSection({ onSearch }) {
               ? `https://weather-backend-001h.onrender.com/uploads/${user.photo}`
               : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg'
           }
+          loading='lazy'
           alt="Profile"
         />
       </div>
@@ -79,6 +80,7 @@ function NavSection({ onSearch }) {
               ? `https://weather-backend-001h.onrender.com/uploads/${user.photo}`
               : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg'
           }
+          loading='lazy'
           alt="Profile"
         />
       </div>
