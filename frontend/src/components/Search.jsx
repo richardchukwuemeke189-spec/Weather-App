@@ -9,10 +9,9 @@ function Search({ onSearch }) {
       onSearch(city);
       e.target.reset();
 
-      // Scroll back to top after searching
       window.scrollTo({
         top: 0,
-        behavior: 'smooth' // smooth animation
+        behavior: 'smooth'
       });
     }
   };
