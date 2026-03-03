@@ -130,22 +130,26 @@ function ExploreCities() {
 
             return (
               <Link
-                  to={`/weather/${city}`}
-                  key={city}
-                  className={`city-card ${isLarge ? 'lg' : ''}`}
-
-                  style={
+                to={`/weather/${city}`}
+                key={city}
+                className={`city-card ${isLarge ? 'lg' : ''}`}
+                style={
                   !isCustomCity
-                      ? {
-                          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0,0,0,0.2)), url(${imageUrl})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center'
+                    ? {
+                        backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0,0,0,0.2)), url(${imageUrl})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
                       }
-                      : {
-                          background:`linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.13)), url(${defaultCardImg})`
+                    : {
+                        background:`linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.13)), url(${defaultCardImg})`
                       }
-                  }
-
+                }
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                  });
+                }}
               >
                 <h3>{city}</h3>
                 {data && !data.error ? (
@@ -154,7 +158,7 @@ function ExploreCities() {
                     <p>{data.description}</p>
                   </>
                 ) : (
-                  <p className="error">Weather unavailable</p>
+                    <p className="error">Weather unavailable</p>
                 )}
               </Link>
             );
