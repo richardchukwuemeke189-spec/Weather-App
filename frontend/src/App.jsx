@@ -33,79 +33,79 @@ function App() {
       <div className='main-content'>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} /> */}
 
         {/* Protected routes */}
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            // <PrivateRoute>
               <Home />
-            </PrivateRoute>
+            // </PrivateRoute>
           }
         />
 
         <Route
           path="/profile"
           element={
-            <PrivateRoute>
+            // <PrivateRoute>
               <Profile />
-            </PrivateRoute>
+            // </PrivateRoute>
           }
         />
 
         <Route
           path="/exploreCities"
           element={
-            <PrivateRoute>
+            // <PrivateRoute>
               <ExploreCities />
-            </PrivateRoute>
+            // </PrivateRoute>
           }
         />
 
         <Route 
         path="/weather/:city" 
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <Home />
-          </PrivateRoute>
+          // </PrivateRoute>
           } 
         />
 
         <Route
         path='/profileSettings'
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <ProfileSettings />
-          </PrivateRoute>
+          // </PrivateRoute>
           }
         />
 
         <Route
         path='/favoriteCities'
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <FavoriteCities />
-          </PrivateRoute>
+          // </PrivateRoute>
           }
         />
 
         <Route
         path='/profileForm'
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <ProfileForm />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
         />
 
         <Route
         path='/changePasswordForm'
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <ChangePasswordForm />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
         />
       </Routes>

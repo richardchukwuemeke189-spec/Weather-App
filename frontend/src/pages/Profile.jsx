@@ -98,12 +98,12 @@ function Profile(){
           <div className="profileButtonWrap">
             <div>
               <Link to='/profileForm'>
-                <button type="button" className="btn btn-primary">Edit Profile</button>
+                <button type="button" className="btn btn-primary" disabled>Edit Profile</button>
               </Link>
             </div>
             <div>
               <Link to='/profileSettings'>
-                <button type='button' className='btn btn-primary'>Settings</button>
+                <button type='button' className='btn btn-primary' disabled>Settings</button>
               </Link>
             </div>
           </div>
