@@ -180,12 +180,12 @@ function Profile(){
           <div className="profileButtonWrap">
             <div>
               <Link to='/profileForm' style={{cursor:'no-drop'}}>
-                <button type="button" className="btn btn-primary" disabled>Edit Profile</button>
+                <button type="button" className="btn btn-primary" style={{cursor:'no-drop'}} disabled>Edit Profile</button>
               </Link>
             </div>
             <div>
               <Link to='/profileSettings' style={{cursor:'no-drop'}}>
-                <button type='button' className='btn btn-primary' disabled>Settings</button>
+                <button type='button' className='btn btn-primary' style={{cursor:'no-drop'}} disabled>Settings</button>
               </Link>
             </div>
           </div>
