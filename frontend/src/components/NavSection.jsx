@@ -196,7 +196,7 @@ function NavSection({ onSearch }) {
       </div>
 
       {loading && <p className="loadingText">Fetching weather...</p>}
-      {error && <p className="errorText">{error}</p>}
+      {/* {error && <p className="errorText">{error}</p>} */}
     </div>
   );
 }
